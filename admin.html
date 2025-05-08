@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login - Earthquake Monitoring</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    .container { max-width: 400px; margin: auto; background: white; padding: 20px; box-shadow: 0 0 10px #ccc; }
+    input, button { display: block; width: 100%; margin-bottom: 10px; padding: 10px; }
+    #sensor-data { display: none; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Login</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <button onclick="logout()" style="display:none;" id="logout-btn">Logout</button>
+
+    <div id="sensor-data">
+      <h3>Sensor Data</h3>
+      <table border="1" width="100%">
+        <tr><th>ID</th><th>Time</th><th>Magnitude</th><th>Location</th></tr>
+        <tr><td>001</td><td>2024-04-24 14:29</td><td>4.8</td><td>35.7, 139.7</td></tr>
+        <tr><td>002</td><td>2024-04-23 03:14</td><td>3.2</td><td>34.1, -118.3</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Your Firebase config (REPLACE WITH YOURS)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDV-9CzgYvR6Z92YQ_FPJ-lw9-0qj2M-qE",
+      authDomain: "earthquakemonitoring-cf55b.firebaseapp.com",
+      projectId: "earthquakemonitoring-cf55b",
+      appId: "1:660762772476:web:5fa9c36314011cccde6879"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById("sensor-data").style.display = "block";
+          document.getElementById("logout-btn").style.display = "block";
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
+    }
+
+    function logout() {
+      auth.signOut().then(() => {
+        document.getElementById("sensor-data").style.display = "none";
+        document.getElementById("logout-btn").style.display = "none";
+      });
+    }
+  </script>
+</body>
+</html>
